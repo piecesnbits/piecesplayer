@@ -5,7 +5,12 @@ ACTION bancortest::getprice(eosio::symbol_code smart_token, eosio::symbol_code s
   //require_auth(get_self() );
 
   // Init the _message table
-  bancor::get_eos_value_of(smart_token, sym);
+  double token = bancor::get_ratio(smart_token, sym);
+  double eos = bancor::get_ratio(symbol_code("EOSBOD"), symbol_code("EOS") );
+
+  double v = token*eos;
+
+  print(v);
 
 }
 
