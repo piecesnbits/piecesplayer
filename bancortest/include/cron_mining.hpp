@@ -33,12 +33,12 @@ typedef eosio::multi_index<"pricecache"_n, pricecache> pricecache_table;
 
 namespace bancor{
 
-void get_eos_value_of(eosio::symbol_code smart_token, eosio::asset token){
+void get_eos_value_of(eosio::symbol_code smart_token, eosio::symbol_code sym){
 
     double ratio;
     
     reserves_table _reserves(name(_BANCOR_CONTRACT_), smart_token.raw() );
-    auto other = _reserves.get(token.symbol.code().raw() );
+    auto other = _reserves.get(sym.raw() );
     auto bnt = _reserves.get( symbol_code("BNT").raw() );
     
     
@@ -46,7 +46,7 @@ void get_eos_value_of(eosio::symbol_code smart_token, eosio::asset token){
         ratio = (bnt.balance.amount/pow(10, bnt.balance.symbol.precision() ) ) / (other.balance.amount/pow(10, other.balance.symbol.precision() ) );
     }
     else{
-        ratio = bnt.balance.amount / other.balance.amount;
+        ratio = (bnt.balance.amount/pow(10, bnt.balance.symbol.precision() ) ) / (other.balance.amount/pow(10, other.balance.symbol.precision() ) );
     }
 
     eosio::print(ratio);

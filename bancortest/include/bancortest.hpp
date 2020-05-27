@@ -12,7 +12,7 @@ CONTRACT bancortest : public contract {
   public:
     using contract::contract;
 
-    ACTION getprice(eosio::symbol_code smart_token, eosio::asset token);
+    ACTION getprice(eosio::symbol_code smart_token, eosio::symbol_code sym);
     //ACTION clear();
 
   private:

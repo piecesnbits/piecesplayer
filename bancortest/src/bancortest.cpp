@@ -1,11 +1,11 @@
 #include <bancortest.hpp>
 #include <cron_mining.hpp>
 
-ACTION bancortest::getprice(eosio::symbol_code smart_token, eosio::asset token) {
+ACTION bancortest::getprice(eosio::symbol_code smart_token, eosio::symbol_code sym) {
   //require_auth(get_self() );
 
   // Init the _message table
-  bancor::get_eos_value_of(smart_token, token);
+  bancor::get_eos_value_of(smart_token, sym);
 
 }
 
