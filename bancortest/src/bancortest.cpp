@@ -11,6 +11,7 @@ ACTION bancortest::getprice(eosio::symbol_code smart_token, eosio::symbol_code s
   double v = token*eos;
 
   print(v);
+  print("----");
 
 }
 
