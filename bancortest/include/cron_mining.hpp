@@ -11,13 +11,13 @@
 #define _CONTRACT_NAME_ "cron.eos"
 #define _BANCOR_CONTRACT_ "bancorcnvrtr"
 
-struct reserves{
-    eosio::name contract;
+struct reserve_t {
+    name contract;
     uint64_t ratio;
-    eosio::asset balance;
+    asset balance;
     uint64_t primary_key() const { return balance.symbol.code().raw(); }
 };
-typedef eosio::multi_index<"reserves"_n, reserves> reserves_table;
+typedef eosio::multi_index<"reserves"_n, reserve_t> reserves_table;
 
 struct [[eosio::table, eosio::contract(_CONTRACT_NAME_)]] pricecache {
     eosio::extended_asset token;
@@ -37,8 +37,9 @@ void get_eos_value_of(eosio::name pair, eosio::extended_asset token){
     double ratio;
     
     reserves_table _reserves(name(_BANCOR_CONTRACT_), pair.value);
-    auto bnt = _reserves.get( symbol_code("BNT").raw() );
     auto other = _reserves.get(token.quantity.symbol.code().raw() );
+    auto bnt = _reserves.get( symbol_code("BNT").raw() );
+    
     
     if(pair == eosio::name("EOSBNT") ){
         ratio = other.balance.amount / bnt.balance.amount;
