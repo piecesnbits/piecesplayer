@@ -8,10 +8,11 @@ ACTION bancortest::getprice(eosio::symbol_code smart_token, eosio::symbol_code s
   double token = bancor::get_ratio(smart_token, sym);
   double eos = bancor::get_ratio(symbol_code("EOSBNT"), symbol_code("EOS") );
 
-  double v = eos/token;
+  double v = token/eos;
 
+
+  print("\n");
   print(v);
-  print("----");
 
 }
 
