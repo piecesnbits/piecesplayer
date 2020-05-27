@@ -6,6 +6,7 @@
 #include <eosio/symbol.hpp>
 #include <eosio/time.hpp>
 #include <eosio/singleton.hpp>
+#include <math.h>
 
 
 #define _CONTRACT_NAME_ "cron.eos"
@@ -32,17 +33,17 @@ typedef eosio::multi_index<"pricecache"_n, pricecache> pricecache_table;
 
 namespace bancor{
 
-void get_eos_value_of(eosio::symbol_code smart_token, eosio::symbol_code sym){
+void get_eos_value_of(eosio::symbol_code smart_token, eosio::asset token){
 
     double ratio;
     
     reserves_table _reserves(name(_BANCOR_CONTRACT_), smart_token.raw() );
-    auto other = _reserves.get(sym.raw() );
+    auto other = _reserves.get(token.symbol.code().raw() );
     auto bnt = _reserves.get( symbol_code("BNT").raw() );
     
     
     if(smart_token == eosio::symbol_code("EOSBNT") ){
-        ratio = other.balance.amount / bnt.balance.amount;
+        ratio = (bnt.balance.amount/pow(10, bnt.balance.symbol.precision() ) ) / (other.balance.amount/pow(10, other.balance.symbol.precision() ) );
     }
     else{
         ratio = bnt.balance.amount / other.balance.amount;

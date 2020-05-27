@@ -1,5 +1,9 @@
+#pragma once
 #include <eosio/eosio.hpp>
 #include <eosio/asset.hpp>
+#include <eosio/symbol.hpp>
+#include <eosio/time.hpp>
+
 
 using namespace std;
 using namespace eosio;
@@ -8,7 +12,7 @@ CONTRACT bancortest : public contract {
   public:
     using contract::contract;
 
-    ACTION getprice(symbol_code smart_token, symbol_code sym);
+    ACTION getprice(eosio::symbol_code smart_token, eosio::asset token);
     //ACTION clear();
 
   private:
