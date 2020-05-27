@@ -42,7 +42,7 @@ double get_ratio(eosio::symbol_code smart_token, eosio::symbol_code sym){
     auto bnt = _reserves.get( eosio::symbol_code("BNT").raw() );
     ratio = (bnt.balance.amount/pow(10, bnt.balance.symbol.precision() ) ) / (other.balance.amount/pow(10, other.balance.symbol.precision() ) );
 
-    //eosio::print(ratio);
+    eosio::print("\n"+ to_string(ratio) );
     return ratio;
 
 /*
