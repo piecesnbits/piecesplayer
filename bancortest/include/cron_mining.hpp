@@ -76,7 +76,7 @@ eosio::asset get_cron_reward(eosio::asset gas_fee){
     eosio::print("t_component");
     eosio::print(t_component);
 
-    eosio::asset cron_reward = eosio::asset(10000, eosio::symbol(eosio::symbol_code("CRON"), 4) )*(staked*decay_rate*gas_in_eos*t_component);
+    eosio::asset cron_reward = (staked*decay_rate*gas_in_eos*t_component*inflation_pct)*eosio::asset(10000, eosio::symbol(eosio::symbol_code("CRON"), 4) );
     return cron_reward;
 
 }
