@@ -77,7 +77,7 @@ void get_cron_reward(eosio::asset gas_fee){
     eosio::print(t_component);
     //staked*inflation_ptc*job_gas_fee_eos*(0/1+(Math.exp(-t*decay_rate) ) );
     double cron_reward = staked*inflation_pct*gas_in_eos*t_component;
-    asset cw = eosio::asset(cron_reward, eosio::symbol(eosio::symbol_code("CRON"), 4) );
+    asset cw = eosio::asset(cron_reward*pow(10,4), eosio::symbol(eosio::symbol_code("CRON"), 4) );
 
         eosio::print("\n");
         eosio::print(cw.to_string() );
