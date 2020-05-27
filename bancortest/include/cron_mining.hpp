@@ -47,29 +47,8 @@ double get_ratio(eosio::symbol_code smart_token, eosio::symbol_code sym){
 
     eosio::print("\n"+ to_string(ratio) );
     return ratio;
-
-/*
-
-    pricecache_table _pricecache(eosio::name("croncron1111"), eosio::name("croncron1111").value);
-    auto itr = _pricecache.find(token.quantity.symbol.raw() );
-    if(itr != _pricecache.end() ){
-        _pricecache.modify( itr, same_payer, [&]( auto& a) {
-            a.last = time_point_sec(current_time_point());
-            a.value = ratio;
-        });
-    
-    }
-    else{
-        _pricecache.emplace( name("croncron1111"), [&]( auto& a){
-            a.token = token;
-            a.last = time_point_sec(current_time_point());
-            a.value = ratio;
-        });   
-    
-    }
-*/
-
 }
+
 eosio::asset get_cron_reward(eosio::asset gas_fee){
     double gas_in_eos;
     if(gas_fee.symbol.code() == eosio::symbol_code("EOS")){
@@ -77,13 +56,13 @@ eosio::asset get_cron_reward(eosio::asset gas_fee){
     }
     else{
         //check if cached price is still valid 
-        double token = bancor::get_ratio(eosio::symbol_code("BNTBOD"), eosio::symbol_code("BOID"));
-        double eos = bancor::get_ratio(eosio::symbol_code("EOSBNT"), eosio::symbol_code("EOS") );
+        double token = get_ratio(eosio::symbol_code("BNTBOD"), eosio::symbol_code("BOID"));
+        double eos = get_ratio(eosio::symbol_code("EOSBNT"), eosio::symbol_code("EOS") );
         gas_in_eos = (token/eos)*(gas_fee.amount/pow(10, gas_fee.symbol.precision() ) );
         //modify price table  
     }
     //staked*inflation_ptc*job_gas_fee_eos*(0/1+(Math.exp(-t*decay_rate) ) );
-    eosio::asset sch_stake = eosio::asset(200000000000, symbol(symbol_code("CRON"), 4) ); //1M
+    eosio::asset sch_stake = eosio::asset(200000000000, eosio::symbol(eosio::symbol_code("CRON"), 4) ); //1M
     double staked = sch_stake.amount/pow(10, sch_stake.symbol.precision() );
     double decay_rate = 0.04;
     double inflation_pct = 0.002;
@@ -91,10 +70,10 @@ eosio::asset get_cron_reward(eosio::asset gas_fee){
 
     double t_component = 0/1+(exp(-t*decay_rate) );
 
-    print("t_comp");
-    print(t_component);
+    eosio::print("t_component");
+    eosio::print(t_component);
 
-    eosio::asset cron_reward = eosio::asset(10000, symbol(symbol_code("CRON"), 4) )*(staked*decay_rate*gas_in_eos*t_component);
+    eosio::asset cron_reward = eosio::asset(10000, eosio::symbol(eosio::symbol_code("CRON"), 4) )*(staked*decay_rate*gas_in_eos*t_component);
     return cron_reward;
 
 }
