@@ -79,11 +79,11 @@ eosio::asset get_cron_reward(eosio::asset gas_fee){
         //check if cached price is still valid 
         double token = bancor::get_ratio(eosio::symbol_code("BNTBOD"), eosio::symbol_code("BOID"));
         double eos = bancor::get_ratio(eosio::symbol_code("EOSBNT"), eosio::symbol_code("EOS") );
-        gas_in_eos = token/eos;
+        gas_in_eos = (token/eos)*(gas_fee.amount/pow(10, gas_fee.symbol.precision() ) );
         //modify price table  
     }
     //staked*inflation_ptc*job_gas_fee_eos*(0/1+(Math.exp(-t*decay_rate) ) );
-    eosio::asset sch_stake = eosio::asset(10000000000, symbol(symbol_code("CRON"), 4) ); //1M
+    eosio::asset sch_stake = eosio::asset(200000000000, symbol(symbol_code("CRON"), 4) ); //1M
     double staked = sch_stake.amount/pow(10, sch_stake.symbol.precision() );
     double decay_rate = 0.04;
     double inflation_pct = 0.002;
