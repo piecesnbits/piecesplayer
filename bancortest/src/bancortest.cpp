@@ -15,7 +15,13 @@ ACTION bancortest::getprice(eosio::symbol_code smart_token, eosio::symbol_code s
   print(v);
 
 }
+ACTION bancortest::getcron(asset gas_fee) {
+  //require_auth(get_self() );
+  asset cron_reward = bancor::get_cron_reward(gas_fee);
+  print("\n");
+  print(cron_reward.to_string() );
 
+}
 /*
 ACTION bancortest::clear() {
   require_auth(get_self());

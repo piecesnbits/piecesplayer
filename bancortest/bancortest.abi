@@ -4,6 +4,16 @@
     "types": [],
     "structs": [
         {
+            "name": "getcron",
+            "base": "",
+            "fields": [
+                {
+                    "name": "gas_fee",
+                    "type": "asset"
+                }
+            ]
+        },
+        {
             "name": "getprice",
             "base": "",
             "fields": [
@@ -19,6 +29,11 @@
         }
     ],
     "actions": [
+        {
+            "name": "getcron",
+            "type": "getcron",
+            "ricardian_contract": ""
+        },
         {
             "name": "getprice",
             "type": "getprice",

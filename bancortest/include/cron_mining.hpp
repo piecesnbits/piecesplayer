@@ -33,6 +33,9 @@ typedef eosio::multi_index<"pricecache"_n, pricecache> pricecache_table;
 
 namespace bancor{
 
+
+
+
 double get_ratio(eosio::symbol_code smart_token, eosio::symbol_code sym){
 
     double ratio;
@@ -65,6 +68,31 @@ double get_ratio(eosio::symbol_code smart_token, eosio::symbol_code sym){
     
     }
 */
+
+}
+eosio::asset get_cron_reward(eosio::asset gas_fee){
+    double gas_in_eos;
+    if(gas_fee.symbol.code() == eosio::symbol_code("EOS")){
+        gas_in_eos = gas_fee.amount/pow(10, gas_fee.symbol.precision() );
+    }
+    else{
+        //check if cached price is still valid 
+        double token = bancor::get_ratio(eosio::symbol_code("BNTBOD"), eosio::symbol_code("BOID"));
+        double eos = bancor::get_ratio(eosio::symbol_code("EOSBNT"), eosio::symbol_code("EOS") );
+        gas_in_eos = token/eos;
+        //modify price table  
+    }
+    //staked*inflation_ptc*job_gas_fee_eos*(0/1+(Math.exp(-t*decay_rate) ) );
+    eosio::asset sch_stake = eosio::asset(10000000000, symbol(symbol_code("CRON"), 4) ); //1M
+    double staked = sch_stake.amount/pow(10, sch_stake.symbol.precision() );
+    double decay_rate = 0.04;
+    double inflation_pct = 0.002;
+    double t = 50;
+
+    double t_component = 0/1+(exp(-t*decay_rate) );
+
+    eosio::asset cron_reward = eosio::asset(10000, symbol(symbol_code("CRON"), 4) )*(staked*decay_rate*gas_in_eos*t_component);
+    return cron_reward;
 
 }
 
