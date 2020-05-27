@@ -1,0 +1,31 @@
+{
+    "____comment": "This file was generated with eosio-abigen. DO NOT EDIT ",
+    "version": "eosio::abi/1.1",
+    "types": [],
+    "structs": [
+        {
+            "name": "getprice",
+            "base": "",
+            "fields": [
+                {
+                    "name": "pair",
+                    "type": "name"
+                },
+                {
+                    "name": "token",
+                    "type": "extended_asset"
+                }
+            ]
+        }
+    ],
+    "actions": [
+        {
+            "name": "getprice",
+            "type": "getprice",
+            "ricardian_contract": ""
+        }
+    ],
+    "tables": [],
+    "ricardian_clauses": [],
+    "variants": []
+}
