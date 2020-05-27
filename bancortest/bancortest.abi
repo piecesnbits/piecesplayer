@@ -8,12 +8,12 @@
             "base": "",
             "fields": [
                 {
-                    "name": "pair",
-                    "type": "name"
+                    "name": "smart_token",
+                    "type": "symbol_code"
                 },
                 {
-                    "name": "token",
-                    "type": "extended_asset"
+                    "name": "sym",
+                    "type": "symbol_code"
                 }
             ]
         }

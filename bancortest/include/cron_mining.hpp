@@ -32,16 +32,16 @@ typedef eosio::multi_index<"pricecache"_n, pricecache> pricecache_table;
 
 namespace bancor{
 
-void get_eos_value_of(eosio::name pair, eosio::extended_asset token){
+void get_eos_value_of(eosio::symbol_code smart_token, eosio::symbol_code sym){
 
     double ratio;
     
-    reserves_table _reserves(name(_BANCOR_CONTRACT_), pair.value);
-    auto other = _reserves.get(token.quantity.symbol.code().raw() );
+    reserves_table _reserves(name(_BANCOR_CONTRACT_), smart_token.raw() );
+    auto other = _reserves.get(sym.raw() );
     auto bnt = _reserves.get( symbol_code("BNT").raw() );
     
     
-    if(pair == eosio::name("EOSBNT") ){
+    if(smart_token == eosio::symbol_code("EOSBNT") ){
         ratio = other.balance.amount / bnt.balance.amount;
     }
     else{
