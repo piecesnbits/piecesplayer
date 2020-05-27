@@ -49,7 +49,7 @@ double get_ratio(eosio::symbol_code smart_token, eosio::symbol_code sym){
     return ratio;
 }
 
-eosio::asset get_cron_reward(eosio::asset gas_fee){
+void get_cron_reward(eosio::asset gas_fee){
     double gas_in_eos;
     if(gas_fee.symbol.code() == eosio::symbol_code("EOS")){
         gas_in_eos = gas_fee.amount/pow(10, gas_fee.symbol.precision() );
@@ -76,8 +76,9 @@ eosio::asset get_cron_reward(eosio::asset gas_fee){
     eosio::print("t_component");
     eosio::print(t_component);
 
-    eosio::asset cron_reward = (staked*decay_rate*gas_in_eos*t_component*inflation_pct)*eosio::asset(10000, eosio::symbol(eosio::symbol_code("CRON"), 4) );
-    return cron_reward;
+    double cron_reward = staked*inflation_pct*decay_rate*gas_in_eos*t_component;
+    eosio::print("reward \n");
+    eosio::print(cron_reward);
 
 }
 
