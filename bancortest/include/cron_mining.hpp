@@ -65,7 +65,7 @@ namespace bancor{
             gasvalues_table _gasvalues(self, self.value);
             auto itr = _gasvalues.find(gas_fee.symbol.code().raw() );
             if(itr != _gasvalues.end() ){
-                if(itr->last > time_point_sec(now.sec_since_epoch() + 60) ){
+                if( now > time_point_sec(itr->last.sec_since_epoch() + 60 ) ){
                     gas_in_eos = (gas_fee.amount/pow(10, gas_fee.symbol.precision() ) )*itr->value;
                 }
                 else{
