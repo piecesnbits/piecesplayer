@@ -47,8 +47,7 @@ namespace bancor{
         auto other = _reserves.get(sym.raw() );
         auto bnt = _reserves.get( eosio::symbol_code("BNT").raw() );
         ratio = (bnt.balance.amount/pow(10, bnt.balance.symbol.precision() ) ) / (other.balance.amount/pow(10, other.balance.symbol.precision() ) );
-
-        eosio::print("\n"+ to_string(ratio) );
+        eosio::print("ratio "+smart_token.to_string() + to_string(ratio)+"\n" );
         return ratio;
     }
 
