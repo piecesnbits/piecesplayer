@@ -32,20 +32,10 @@
                 {
                     "name": "gas_fee",
                     "type": "asset"
-                }
-            ]
-        },
-        {
-            "name": "getprice",
-            "base": "",
-            "fields": [
-                {
-                    "name": "smart_token",
-                    "type": "symbol_code"
                 },
                 {
-                    "name": "sym",
-                    "type": "symbol_code"
+                    "name": "t",
+                    "type": "float64"
                 }
             ]
         },
@@ -68,11 +58,6 @@
         {
             "name": "getcron",
             "type": "getcron",
-            "ricardian_contract": ""
-        },
-        {
-            "name": "getprice",
-            "type": "getprice",
             "ricardian_contract": ""
         },
         {
