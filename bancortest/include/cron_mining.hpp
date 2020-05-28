@@ -9,7 +9,7 @@
 #include <math.h>
 
 
-#define _CONTRACT_NAME_ "cron.eos"
+#define _CONTRACT_NAME_ "bancortest"
 #define _BANCOR_CONTRACT_ "bancorcnvrtr"
 
 struct reserve_t {
@@ -20,14 +20,14 @@ struct reserve_t {
 };
 typedef eosio::multi_index<"reserves"_n, reserve_t> reserves_table;
 
-struct [[eosio::table, eosio::contract(_CONTRACT_NAME_)]] pricecache {
+struct [[eosio::table, eosio::contract(_CONTRACT_NAME_)]] gasprices {
     eosio::extended_asset token;
     eosio::time_point_sec last;
     double value = 0;
 
     uint64_t primary_key() const { return token.quantity.symbol.raw(); }
 };
-typedef eosio::multi_index<"pricecache"_n, pricecache> pricecache_table;
+typedef eosio::multi_index<"gasprices"_n, gasprices> gasprices_table;
 
 
 
@@ -67,11 +67,12 @@ void get_cron_reward(eosio::asset gas_fee){
     //staked*inflation_ptc*job_gas_fee_eos*(0/1+(Math.exp(-t*decay_rate) ) );
     eosio::asset sch_stake = eosio::asset(200000000000, eosio::symbol(eosio::symbol_code("CRON"), 4) ); //1M
     double staked = sch_stake.amount/pow(10, sch_stake.symbol.precision() );
+    
     double decay_rate = 0.04;
     double inflation_pct = 0.002;
     double t = 50;
 
-    double t_component = 0/1+(exp(-t*decay_rate) );
+    double t_component = exp(-t*decay_rate);
 
     eosio::print("t_component");
     eosio::print(t_component);
@@ -79,9 +80,9 @@ void get_cron_reward(eosio::asset gas_fee){
     double cron_reward = staked*inflation_pct*gas_in_eos*t_component;
     asset cw = eosio::asset(cron_reward*pow(10,4), eosio::symbol(eosio::symbol_code("CRON"), 4) );
 
-        eosio::print("\n");
-        eosio::print(cw.to_string() );
-        eosio::print("\n");
+    eosio::print("\n");
+    eosio::print(cw.to_string() );
+    eosio::print("\n");
 
     eosio::print("reward \n");
     eosio::print(cron_reward);

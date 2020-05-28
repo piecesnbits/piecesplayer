@@ -4,6 +4,24 @@
     "types": [],
     "structs": [
         {
+            "name": "gasprices",
+            "base": "",
+            "fields": [
+                {
+                    "name": "token",
+                    "type": "extended_asset"
+                },
+                {
+                    "name": "last",
+                    "type": "time_point_sec"
+                },
+                {
+                    "name": "value",
+                    "type": "float64"
+                }
+            ]
+        },
+        {
             "name": "getcron",
             "base": "",
             "fields": [
@@ -40,7 +58,15 @@
             "ricardian_contract": ""
         }
     ],
-    "tables": [],
+    "tables": [
+        {
+            "name": "gasprices",
+            "type": "gasprices",
+            "index_type": "i64",
+            "key_names": [],
+            "key_types": []
+        }
+    ],
     "ricardian_clauses": [],
     "variants": []
 }
