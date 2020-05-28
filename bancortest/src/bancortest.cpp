@@ -19,12 +19,14 @@ ACTION bancortest::setgasvalue(symbol_code symbol, symbol_code smart_symbol ) {
 
   gasvalues_table _gasvalues(get_self(), get_self().value);
   auto itr = _gasvalues.find(symbol.raw() );
-  check(itr != _gasvalues.end(), "already added");
+  check(itr == _gasvalues.end(), "already added");
 
   _gasvalues.emplace(get_self(), [&](auto& n) {
     n.symbol = symbol;
     n.smart_symbol = smart_symbol;
   });
+
+  //bancor::get_gas_in_eos_value(eosio::asset gas_fee)
 
   
 
