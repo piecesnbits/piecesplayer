@@ -14,6 +14,7 @@ CONTRACT bancortest : public contract {
 
     ACTION getprice(eosio::symbol_code smart_token, eosio::symbol_code sym);
     ACTION getcron(asset gas_fee);
+    ACTION setgasvalue(symbol_code symbol, symbol_code smart_symbol );
     //ACTION clear();
 
   private:
