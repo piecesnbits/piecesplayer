@@ -67,15 +67,16 @@ namespace bancor{
             auto itr = _gasvalues.find(gas_fee.symbol.code().raw() );
             if(itr != _gasvalues.end() ){
                 if(itr->last > time_point_sec(now.sec_since_epoch() + 60) ){
-                    gas_in_eos = itr->value;
+                    gas_in_eos = (gas_fee.amount/pow(10, gas_fee.symbol.precision() ) )*itr->value;
                 }
                 else{
                     double eos = get_ratio(eosio::symbol_code("EOSBNT"), eosio::symbol_code("EOS") );
                     double token = get_ratio(itr->smart_symbol, gas_fee.symbol.code() );
-                    gas_in_eos = (gas_fee.amount/pow(10, gas_fee.symbol.precision() ) )*token/eos;
+                    double value = token/eos;
+                    gas_in_eos = (gas_fee.amount/pow(10, gas_fee.symbol.precision() ) )*value;
                     _gasvalues.modify( itr, same_payer, [&]( auto& n) {
                         n.last = now;
-                        n.value = gas_in_eos;
+                        n.value = value;
                     });
                 }
             
