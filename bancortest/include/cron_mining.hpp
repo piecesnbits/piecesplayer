@@ -86,13 +86,13 @@ namespace bancor{
         return gas_in_eos;
     }
 
-    std::pair<eosio::asset, eosio::asset>get_cron_reward(eosio::asset gas_fee, double t_mining){
+    std::pair<eosio::asset, eosio::asset>get_cron_reward(eosio::asset gas_fee, double t_mining, eosio::asset cron_stake){
         double gas_in_eos = get_gas_in_eos_value(gas_fee);
 
         //if gas in eos is 0 return results immediate todo
 
-        eosio::asset sch_stake = eosio::asset(200000000000, eosio::symbol(eosio::symbol_code("CRON"), 4) ); //20M
-        double staked = sch_stake.amount/pow(10, sch_stake.symbol.precision() );
+
+        double staked = cron_stake.amount/pow(10, cron_stake.symbol.precision() );
         
         double decay_rate = 0.04;
         double inflation_pct = 0.002;
@@ -107,6 +107,7 @@ namespace bancor{
         eosio::asset miner_reward = eosio::asset(t_base*pow(10,4), eosio::symbol(eosio::symbol_code("CRON"), 4) );
         eosio::asset rest_reward = eosio::asset(rest*pow(10,4), eosio::symbol(eosio::symbol_code("CRON"), 4) );
         
+        eosio::print("cron stake: "+cron_stake.to_string()+"\n" );
         eosio::print("t_component: "+to_string(t_component)+"\n" );
         eosio::print("gas_in_eos: "+to_string(gas_in_eos)+"\n" );
         eosio::print("base: "+to_string(base)+"\n" );

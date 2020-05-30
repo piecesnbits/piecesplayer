@@ -36,6 +36,10 @@
                 {
                     "name": "t",
                     "type": "float64"
+                },
+                {
+                    "name": "cron_stake",
+                    "type": "asset"
                 }
             ]
         },

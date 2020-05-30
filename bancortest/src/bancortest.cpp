@@ -2,16 +2,16 @@
 #include <cron_mining.hpp>
 
 
-ACTION bancortest::getcron(asset gas_fee, double t) {
+ACTION bancortest::getcron(asset gas_fee, double t, asset cron_stake ) {
   //require_auth(get_self() );
   //get_cron_reward(eosio::asset gas_fee, double t_mining)
-  pair<asset,asset> reward = bancor::get_cron_reward(gas_fee, t);
+  pair<asset,asset> reward = bancor::get_cron_reward(gas_fee, t, cron_stake);
 
   eosio::print("miner_reward: "+reward.first.to_string()+"\n" );
   eosio::print("rest_reward: "+reward.second.to_string()+"\n" );
 
 }
-ACTION bancortest::setgasvalue(symbol_code symbol, symbol_code smart_symbol, double init_value ) {
+ACTION bancortest::setgasvalue(symbol_code symbol, symbol_code smart_symbol, double init_value) {
   require_auth(get_self() );
 
   gasvalues_table _gasvalues(get_self(), get_self().value);
