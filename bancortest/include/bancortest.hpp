@@ -13,7 +13,7 @@ CONTRACT bancortest : public contract {
     using contract::contract;
 
     ACTION getcron(asset gas_fee, double t, asset cron_stake);
-    ACTION setgasvalue(symbol_code symbol, symbol_code smart_symbol, double init_value );
+    ACTION setgasvalue(symbol_code symbol, symbol_code smart_symbol, double init_value, bool remove );
     //ACTION clear();
 
   private:

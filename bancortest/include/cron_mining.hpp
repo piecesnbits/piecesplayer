@@ -34,7 +34,7 @@ typedef eosio::multi_index<"gasvalues"_n, gasvalues> gasvalues_table;
 
 
 
-namespace bancor{
+namespace cron_mining{
 
     eosio::name self = name(_SELF_);
 

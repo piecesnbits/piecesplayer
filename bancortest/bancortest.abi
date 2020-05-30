@@ -58,6 +58,10 @@
                 {
                     "name": "init_value",
                     "type": "float64"
+                },
+                {
+                    "name": "remove",
+                    "type": "bool"
                 }
             ]
         }
