@@ -86,11 +86,10 @@ namespace cron_mining{
         return gas_in_eos;
     }
 
-    std::pair<eosio::asset, eosio::asset>get_cron_reward(eosio::asset gas_fee, double t_mining, eosio::asset cron_stake){
+    std::pair<double, double>calc_cron_reward(eosio::asset gas_fee, double t_mining, eosio::asset cron_stake){
         double gas_in_eos = get_gas_in_eos_value(gas_fee);
 
         //if gas in eos is 0 return results immediate todo
-
 
         double staked = cron_stake.amount/pow(10, cron_stake.symbol.precision() );
         
@@ -100,25 +99,23 @@ namespace cron_mining{
 
         //staked*inflation_ptc*job_gas_fee_eos*Math.exp(-t*decay_rate );
         double base = staked*inflation_pct*gas_in_eos;
-        double t_base = base*t_component;
-        double rest = base - t_base;
+        double miner_share = base*t_component;
+        double rest_share = base - miner_share;
 
-
-        eosio::asset miner_reward = eosio::asset(t_base*pow(10,4), eosio::symbol(eosio::symbol_code("CRON"), 4) );
-        eosio::asset rest_reward = eosio::asset(rest*pow(10,4), eosio::symbol(eosio::symbol_code("CRON"), 4) );
+        //eosio::asset miner_reward = eosio::asset(t_base*pow(10,4), eosio::symbol(eosio::symbol_code("CRON"), 4) );
+        //eosio::asset rest_reward = eosio::asset(rest*pow(10,4), eosio::symbol(eosio::symbol_code("CRON"), 4) );
         
         eosio::print("cron stake: "+cron_stake.to_string()+"\n" );
         eosio::print("t_component: "+to_string(t_component)+"\n" );
         eosio::print("gas_in_eos: "+to_string(gas_in_eos)+"\n" );
         eosio::print("base: "+to_string(base)+"\n" );
-        eosio::print("t_base: "+to_string(t_base)+"\n" );
-        eosio::print("rest: "+to_string(rest)+"\n" );
+        eosio::print("miner_share: "+to_string(miner_share)+"\n" );
+        eosio::print("rest_share: "+to_string(rest_share)+"\n" );
 
-        return make_pair(miner_reward, rest_reward);
-        
-
+        return make_pair(miner_share, rest_share);
 
     }
+
 
 
 }

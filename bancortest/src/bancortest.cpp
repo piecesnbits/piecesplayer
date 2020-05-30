@@ -5,15 +5,17 @@
 ACTION bancortest::getcron(asset gas_fee, double t, asset cron_stake ) {
   //require_auth(get_self() );
   //get_cron_reward(eosio::asset gas_fee, double t_mining)
-  pair<asset,asset> reward = cron_mining::get_cron_reward(gas_fee, t, cron_stake);
+  pair<double,double> reward = cron_mining::calc_cron_reward(gas_fee, t, cron_stake);
 
-  eosio::print("miner_reward: "+reward.first.to_string()+"\n" );
-  eosio::print("rest_reward: "+reward.second.to_string()+"\n" );
+  asset miner = eosio::asset(reward.first*pow(10,4), eosio::symbol(eosio::symbol_code("CRON"), 4) );
+  asset rest = eosio::asset(reward.second*pow(10,4), eosio::symbol(eosio::symbol_code("CRON"), 4) );
+  eosio::print("miner_reward: "+miner.to_string()+"\n" );
+  eosio::print("rest_reward: "+rest.to_string()+"\n" );
 
 }
 ACTION bancortest::setgasvalue(symbol_code symbol, symbol_code smart_symbol, double init_value, bool remove) {
   require_auth(get_self() );
-
+  check(symbol.length() != 0, "Required gas symbol" );
   gasvalues_table _gasvalues(get_self(), get_self().value);
   auto itr = _gasvalues.find(symbol.raw() );
 
@@ -37,12 +39,6 @@ ACTION bancortest::setgasvalue(symbol_code symbol, symbol_code smart_symbol, dou
     });
   
   }
-
-
-
-
-
-  
 }
 /*
 ACTION bancortest::clear() {
