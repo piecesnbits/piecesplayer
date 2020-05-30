@@ -7,6 +7,9 @@ ACTION bancortest::getcron(asset gas_fee, double t) {
   //get_cron_reward(eosio::asset gas_fee, double t_mining)
   pair<asset,asset> reward = bancor::get_cron_reward(gas_fee, t);
 
+  eosio::print("miner_reward: "+reward.first.to_string()+"\n" );
+  eosio::print("rest_reward: "+reward.second.to_string()+"\n" );
+
 }
 ACTION bancortest::setgasvalue(symbol_code symbol, symbol_code smart_symbol, double init_value ) {
   require_auth(get_self() );

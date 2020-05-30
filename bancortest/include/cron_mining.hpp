@@ -67,6 +67,7 @@ namespace bancor{
             if(itr != _gasvalues.end() ){
                 if( now < time_point_sec(itr->last.sec_since_epoch() + 60 ) || itr->smart_symbol.length() == 0 ){
                     //if smart_symbol is not supplied return the default value
+                    eosio::print("no remote price fetched \n" );
                     gas_in_eos = (gas_fee.amount/pow(10, gas_fee.symbol.precision() ) )*itr->value;
                 }
                 else{
@@ -107,10 +108,11 @@ namespace bancor{
         eosio::asset rest_reward = eosio::asset(rest*pow(10,4), eosio::symbol(eosio::symbol_code("CRON"), 4) );
         
         eosio::print("t_component: "+to_string(t_component)+"\n" );
+        eosio::print("gas_in_eos: "+to_string(gas_in_eos)+"\n" );
+        eosio::print("base: "+to_string(base)+"\n" );
         eosio::print("t_base: "+to_string(t_base)+"\n" );
         eosio::print("rest: "+to_string(rest)+"\n" );
-        eosio::print("miner_reward: "+miner_reward.to_string()+"\n" );
-        eosio::print("rest_reward: "+rest_reward.to_string()+"\n" );
+
         return make_pair(miner_reward, rest_reward);
         
 
