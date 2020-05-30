@@ -8,7 +8,7 @@ ACTION bancortest::getcron(asset gas_fee, double t) {
   pair<asset,asset> reward = bancor::get_cron_reward(gas_fee, t);
 
 }
-ACTION bancortest::setgasvalue(symbol_code symbol, symbol_code smart_symbol ) {
+ACTION bancortest::setgasvalue(symbol_code symbol, symbol_code smart_symbol, double init_value ) {
   require_auth(get_self() );
 
   gasvalues_table _gasvalues(get_self(), get_self().value);
@@ -18,6 +18,7 @@ ACTION bancortest::setgasvalue(symbol_code symbol, symbol_code smart_symbol ) {
   _gasvalues.emplace(get_self(), [&](auto& n) {
     n.symbol = symbol;
     n.smart_symbol = smart_symbol;
+    n.value = init_value;
   });
 
   //bancor::get_gas_in_eos_value(eosio::asset gas_fee)

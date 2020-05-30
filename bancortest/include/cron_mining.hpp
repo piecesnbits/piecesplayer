@@ -47,28 +47,30 @@ namespace bancor{
         auto other = _reserves.get(sym.raw() );
         auto bnt = _reserves.get( eosio::symbol_code("BNT").raw() );
         ratio = (bnt.balance.amount/pow(10, bnt.balance.symbol.precision() ) ) / (other.balance.amount/pow(10, other.balance.symbol.precision() ) );
-        eosio::print("ratio "+smart_token.to_string() + to_string(ratio)+"\n" );
+        eosio::print("ratio " + smart_token.to_string() + " " + to_string(ratio) + "\n" );
         return ratio;
     }
 
     double get_gas_in_eos_value(eosio::asset gas_fee){
         
-        double gas_in_eos;
+        double gas_in_eos = 0;
         eosio::time_point_sec now = eosio::time_point_sec(current_time_point());
 
         //eos
         if(gas_fee.symbol.code() == eosio::symbol_code("EOS")){
-            gas_in_eos = gas_fee.amount/pow(10, gas_fee.symbol.precision() );
+            gas_in_eos = gas_fee.amount/pow(10, 4 );
         }
         //other gas tokens
         else{
             gasvalues_table _gasvalues(self, self.value);
             auto itr = _gasvalues.find(gas_fee.symbol.code().raw() );
             if(itr != _gasvalues.end() ){
-                if( now > time_point_sec(itr->last.sec_since_epoch() + 60 ) ){
+                if( now < time_point_sec(itr->last.sec_since_epoch() + 60 ) || itr->smart_symbol.length() == 0 ){
+                    //if smart_symbol is not supplied return the default value
                     gas_in_eos = (gas_fee.amount/pow(10, gas_fee.symbol.precision() ) )*itr->value;
                 }
                 else{
+
                     double eos = get_ratio(eosio::symbol_code("EOSBNT"), eosio::symbol_code("EOS") );
                     double token = get_ratio(itr->smart_symbol, gas_fee.symbol.code() );
                     double value = token/eos;
@@ -78,12 +80,6 @@ namespace bancor{
                         n.value = value;
                     });
                 }
-            
-            
-            }
-            else{
-                //gas_in_eos = 0;
-                //check(false, "vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv");
             }
         }
         return gas_in_eos;
